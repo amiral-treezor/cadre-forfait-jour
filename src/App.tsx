@@ -1,143 +1,122 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { styled } from "styled-components";
-import "./App.css";
 import LogoCSE from "./assets/logo-cse.jpg";
-import { Amount } from "./components/Amount";
-import { Input } from "./components/Input";
-import { PieChart } from "./components/PieChart";
-import { Typography } from "./components/Typography";
+import { Header, IHeaderSalary } from "./components/Header";
+import { Repartition } from "./components/Repartition";
+import { ISalary } from "./model";
 import { Constants, Tools } from "./utils";
+import { Impacts } from "./components/Impacts";
+import { Typography } from "./components/Typography";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2vh;
   margin: 3vh 10vw;
-  position: relative;
+`;
+
+const TitleContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const AnalyseContainer = styled.div`
+  display: flex;
+  gap: 2vw;
+  align-items: center;
 `;
 
 const Logo = styled.img`
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 5vw;
+  justify-self: flex-end;
+  align-self: flex-start;
+  width: 60px;
 `;
-
-const SalaireContainer = styled.div`
-  display: flex;
-  gap: 0.5vw;
-  align-items: center;
-`;
-
-const AmountsContainer = styled.div`
-  display: grid;
-  grid-template-columns: auto auto auto;
-  flex-direction: row;
-  align-items: center;
-`;
-
-const ChartsContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  flex-direction: row;
-  align-items: center;
-`;
-
-interface ISalaire {
-  brut: number;
-  forfaitJour: {
-    net: number;
-    impots: number;
-  };
-  forfaitHeure: {
-    base: number;
-    heuresSupp: number;
-    impots: number;
-  };
-}
 
 const App = () => {
-  const [brut, setBrut] = useState<number>(0);
-  const [prime, setPrime] = useState<number>(0);
-  const [edit, setEdit] = useState(false);
+  const [salary, setSalary] = useState<ISalary>();
+  const [months, setMonths] = useState<1 | 12>(1);
 
-  // const salaire = useMemo<ISalaire | undefined>(() => {
-  //   const brutPrime = brut + prime;
+  const onSalaryChange = ({ brut, prime }: IHeaderSalary) => {
+    const total = brut + prime;
 
-  //   const brutSupp =
-  //     (brut * Constants.heuresSupp) / (Constants.heures + Constants.heuresSupp);
+    const hourBrutOvertime =
+      (brut * Constants.hoursOvertimeByMonth) /
+      (Constants.hoursByMonth + Constants.hoursOvertimeByMonth);
+    const hourSocialChargesExemption =
+      hourBrutOvertime * Constants.rateSocialChargesExemption;
+    const hourSocialCharges =
+      total * Constants.rateSocialCharges - hourSocialChargesExemption;
+    const hourNetSalary = total - hourSocialCharges;
+    const hourIncomeTaxExemption =
+      Tools.calculImpots(hourNetSalary) -
+      Tools.calculImpots(
+        hourNetSalary -
+          Math.min(
+            hourBrutOvertime * Constants.rateTaxesOvertimeExemption,
+            7500
+          )
+      );
+    const hourTaxes =
+      Tools.calculImpots(hourNetSalary) - hourIncomeTaxExemption;
 
-  //   const net = brutPrime * (1 - Constants.tauxNet);
-  //   return {
-  //     brut: brutPrime,
-  //     forfaitHeure: {
-  //       net,
-  //       impots: Tools.calculImpots(
-  //         0.9 *
-  //           (brutPrime - Math.max(brutSupp * (1 - Constants.tauxNet), 7500)) *
-  //           (1 - Constants.tauxNet)
-  //       ),
-  //     },
-  //     forfaitJour: {
-  //       net,
-  //       impots: Tools.calculImpots(0.9 * brutPrime * (1 - Constants.tauxNet)),
-  //     },
-  //   };
-  // }, [brut, prime]);
+    const daySocialCharges = total * Constants.rateSocialCharges;
+    const dayNetSalary = total - daySocialCharges;
+    const dayTaxes = Tools.calculImpots(dayNetSalary);
 
-  const chart = {
-    heure: [
-      ["Répartition", "Montant"],
-      ["Salaire net d'impôts", 11],
-      ["Impôts", 2],
-      ["Charges sociales", 2],
-      ["Exonération (Charges sociales)", 2],
-      ["Exonération (Impôts sur le revenu)", 2],
-    ],
-    jour: [
-      ["Répartition", "Montant"],
-      ["Salaire net d'impôts", 11],
-      ["Impôts", 2],
-      ["Charges sociales", 2],
-      ["Exonération (Charges sociales)", 2],
-      ["Exonération (Impôts sur le revenu)", 2],
-    ],
+    setSalary({
+      hour: {
+        netSalaryAfterTax: hourNetSalary - hourTaxes,
+        socialCharges: hourSocialCharges,
+        taxes: hourTaxes,
+        incomeTaxExemption: hourIncomeTaxExemption,
+        socialChargesExemption: hourSocialChargesExemption,
+      },
+      day: {
+        netSalaryAfterTax: dayNetSalary - dayTaxes,
+        socialCharges: daySocialCharges,
+        taxes: dayTaxes,
+      },
+    });
   };
 
   return (
     <Container>
-      <Logo src={LogoCSE} />
-
-      <SalaireContainer>
-        <Typography size="xxlarge" bold>
-          Mon salaire
+      <TitleContainer>
+        <Typography bold size="xxlarge">
+          Passage au forfait jour
         </Typography>
-        <Typography size="medium" bold onClick={() => setEdit(!edit)}>
-          {edit ? "VALIDER" : "MODIFIER"}
-        </Typography>
-      </SalaireContainer>
+        <Logo src={LogoCSE} />
+      </TitleContainer>
 
-      {!edit ? (
-        <AmountsContainer>
-          <Amount label="Salaire" value={brut + prime} />
-          <Amount label="Salaire de base" value={brut} />
-          <Amount label="Primes" value={prime} />
-        </AmountsContainer>
-      ) : (
-        <AmountsContainer>
-          <Input label="Salaire brut" onChange={setBrut} />
-          <Input label="Primes brutes" value={prime} onChange={setPrime} />
-        </AmountsContainer>
-      )}
-
-      <Typography size="xxlarge" bold>
-        Répartition
+      <Typography size="medium">
+        Cet outil te permettra de découvrir les implications financières d'un
+        passage au forfait jour si tu es cadre au forfait 39h. <br />
+        Saisis simplement ton salaire actuel et toute prime éventuelle, et notre
+        outil te présentera les différences financières à prendre en compte.
       </Typography>
 
-      <ChartsContainer>
-        <PieChart data={chart.heure} />
-        <PieChart data={chart.jour} />
-      </ChartsContainer>
+      <Header onSubmit={onSalaryChange} />
+
+      <AnalyseContainer>
+        <Typography size="xlarge" bold>
+          Tes impacts
+        </Typography>
+        <Typography
+          button
+          size="medium"
+          onClick={() => (months === 1 ? setMonths(12) : setMonths(1))}
+        >
+          {months === 1 ? "MONTANTS MENSUELS" : "MONTANTS ANNUELS"}
+        </Typography>
+      </AnalyseContainer>
+
+      {salary && (
+        <>
+          <Repartition months={months} salary={salary} />
+          <Impacts salary={salary} />
+        </>
+      )}
     </Container>
   );
 };

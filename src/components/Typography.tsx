@@ -8,6 +8,8 @@ interface TypographyProps
   extends Omit<React.HTMLProps<HTMLDivElement>, "size"> {
   size?: TSize;
   bold?: boolean;
+  button?: boolean;
+  italic?: boolean;
   color?: TColor;
   children: ReactNode;
 }
@@ -24,17 +26,18 @@ const StyledTypography = styled.div<TypographyProps>`
   font-family: "Rajdhani", sans-serif;
   font-size: ${(props) => sizeMap[props.size!]};
   font-weight: ${(props) => (props.bold ? "bold" : "normal")};
+  font-style: ${(props) => (props.italic ? "italic" : "normal")};
+  cursor: ${(props) => (props.button ? "pointer" : "normal")};
   color: ${(props) => Colors[props.color!]};
 `;
 
 export const Typography = ({
   size = "small",
-  bold,
   color = "default",
   children,
   ...rest
 }: TypographyProps) => (
-  <StyledTypography {...rest} size={size} bold={bold} color={color}>
+  <StyledTypography {...rest} size={size} color={color} >
     {children}
-  </StyledTypography>
+  </StyledTypography >
 );

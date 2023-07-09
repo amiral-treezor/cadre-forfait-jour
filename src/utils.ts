@@ -1,55 +1,70 @@
 export const Constants = {
-  heures: 151.67,
-  heuresSupp: 10.83 * 1.25,
-  tauxNet: 0.2026401509,
-  tauxExoneration: 0.1101,
-  tranches: {
-    palier11: 10777,
-    palier30: 27478,
-    palier41: 78570,
-    palier45: 168994,
+  hoursByMonth: 151.67,
+  hoursOvertimeByMonth: 10.83 * 1.25,
+  rateSocialCharges: 0.21166295,
+  rateSocialChargesExemption: 0.1101,
+  rateTaxesOvertimeExemption: 0.93305439,
+  taxesSteps: {
+    step11: 10777,
+    step30: 27478,
+    step41: 78570,
+    step45: 168994,
   },
 };
 
 export const Tools = {
   calculImpots: (salaire: number) => {
-    let impot = 0;
-
-    if (salaire > 0 && salaire <= Constants.tranches.palier11) {
-      impot = salaire * 0.0; // Taux d'imposition de 0%
+    salaire = salaire * 0.9;
+    if (salaire > 0 && salaire <= Constants.taxesSteps.step11) {
+      return 0.0; // Taux d'imposition de 0%
     } else if (
-      salaire > Constants.tranches.palier11 &&
-      salaire <= Constants.tranches.palier30
+      salaire > Constants.taxesSteps.step11 &&
+      salaire <= Constants.taxesSteps.step30
     ) {
-      impot = (salaire - Constants.tranches.palier11) * 0.11; // Taux d'imposition de 11%
+      return (salaire - Constants.taxesSteps.step11) * 0.11; // Taux d'imposition de 11%
     } else if (
-      salaire > Constants.tranches.palier30 &&
-      salaire <= Constants.tranches.palier41
+      salaire > Constants.taxesSteps.step30 &&
+      salaire <= Constants.taxesSteps.step41
     ) {
-      impot =
-        (salaire - Constants.tranches.palier30) * 0.3 +
-        (Constants.tranches.palier30 - Constants.tranches.palier11) * 0.11; // Taux d'imposition de 30%
+      return (salaire - Constants.taxesSteps.step30) * 0.3 +
+        (Constants.taxesSteps.step30 - Constants.taxesSteps.step11) * 0.11; // Taux d'imposition de 30%
     } else if (
-      salaire > Constants.tranches.palier41 &&
-      salaire <= Constants.tranches.palier45
+      salaire > Constants.taxesSteps.step41 &&
+      salaire <= Constants.taxesSteps.step45
     ) {
-      impot =
-        (salaire - Constants.tranches.palier41) * 0.41 +
-        (Constants.tranches.palier41 - Constants.tranches.palier30) * 0.3; // Taux d'imposition de 41%
-    } else if (salaire > Constants.tranches.palier45) {
-      impot =
-        (salaire - Constants.tranches.palier45) * 0.45 +
-        (Constants.tranches.palier45 - Constants.tranches.palier41) * 0.45; // Taux d'imposition de 45%
+      return (salaire - Constants.taxesSteps.step41) * 0.41 +
+        (Constants.taxesSteps.step41 - Constants.taxesSteps.step30) * 0.3; // Taux d'imposition de 41%
+    } else {
+      return (salaire - Constants.taxesSteps.step45) * 0.45 +
+        (Constants.taxesSteps.step45 - Constants.taxesSteps.step41) * 0.45; // Taux d'imposition de 45%
     }
-
-    return impot;
   },
+  calculSalaire: (impot: number) => {
+    const impotStep11 = Constants.taxesSteps.step11 * 0;
+    const impotStep30 = impotStep11 + (Constants.taxesSteps.step30 - Constants.taxesSteps.step11) * 0.11;
+    const impotStep41 = impotStep30 + (Constants.taxesSteps.step41 - Constants.taxesSteps.step30) * 0.30;
+    const impotStep45 = impotStep41 + (Constants.taxesSteps.step45 - Constants.taxesSteps.step41) * 0.41;
+
+    if (impot <= impotStep11) {
+      return 0.0; // Taux d'imposition de 0%
+    } else if (impot <= impotStep30) {
+      return (Constants.taxesSteps.step11 + (impot - impotStep11) / 0.11) / 0.9; // Taux d'imposition de 11%
+    } else if (impot <= impotStep41) {
+      return (Constants.taxesSteps.step30 + (impot - impotStep30) / 0.3) / 0.9; // Taux d'imposition de 30%
+    } else if (impot <= impotStep45) {
+      return (Constants.taxesSteps.step41 + (impot - impotStep41) / 0.41) / 0.9; // Taux d'imposition de 41%
+    } else {
+      return (Constants.taxesSteps.step45 + (impot - impotStep45) / 0.45) / 0.9; // Taux d'imposition de 45%
+    }
+  }
 };
 
 export const Colors = {
   default: "#000000",
   primary: "#007bff",
   secondary: "#dc3545",
+  success: '#4caf50',
+  error: '#f44336'
 } as const;
 
 export type TColor = keyof typeof Colors;

@@ -24,7 +24,7 @@ export const Amount: React.FC<AmountProps> = ({ label, value }) => {
   return (
     <Container>
       <AmountContainer>
-        <Typography size="xlarge" bold>
+        <Typography size="large" bold>
           {Formatter.format(value)}
         </Typography>
         <Typography size="medium">/an</Typography>
