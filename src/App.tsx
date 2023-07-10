@@ -40,6 +40,8 @@ const App = () => {
   const onSalaryChange = ({ brut, prime }: IHeaderSalary) => {
     const total = brut + prime;
 
+    if (!total) return;
+
     const hourBrutOvertime =
       (brut * Constants.hoursOvertimeByMonth) /
       (Constants.hoursByMonth + Constants.hoursOvertimeByMonth);
@@ -91,29 +93,34 @@ const App = () => {
 
       <Typography size="medium">
         Cet outil te permettra de découvrir les implications financières d'un
-        passage au forfait jour si tu es cadre au forfait 39h. <br />
-        Saisis simplement ton salaire actuel et toute prime éventuelle, et notre
+        passage au forfait jour si tu es actuellement au forfait 39h chez
+        Treezor. <br />
+        Saisis simplement ton salaire actuel et toute prime éventuelle, notre
         outil te présentera les différences financières à prendre en compte.
+        <br />
+        Sache que notre outil ne stocke aucune donnée et garantit ton anonymat
+        lors de son utilisation.
       </Typography>
 
       <Header onSubmit={onSalaryChange} />
 
-      <AnalyseContainer>
-        <Typography size="xlarge" bold>
-          Tes impacts
-        </Typography>
-        <Typography
-          button
-          size="medium"
-          onClick={() => (months === 1 ? setMonths(12) : setMonths(1))}
-        >
-          {months === 1 ? "MONTANTS MENSUELS" : "MONTANTS ANNUELS"}
-        </Typography>
-      </AnalyseContainer>
-
       {salary && (
         <>
+          <AnalyseContainer>
+            <Typography size="xlarge" bold>
+              Tes impacts
+            </Typography>
+            <Typography
+              button
+              size="medium"
+              onClick={() => (months === 1 ? setMonths(12) : setMonths(1))}
+            >
+              {months === 1 ? "MONTANTS MENSUELS" : "MONTANTS ANNUELS"}
+            </Typography>
+          </AnalyseContainer>
+
           <Repartition months={months} salary={salary} />
+
           <Impacts salary={salary} />
         </>
       )}

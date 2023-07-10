@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { KeyboardEvent, useState } from "react";
 import styled from "styled-components";
 import { Amount } from "./Amount";
 import { Input } from "./Input";
@@ -29,17 +29,19 @@ interface IHeaderProps {
 }
 
 export const Header = ({ onSubmit }: IHeaderProps) => {
-  const [brut, setBrut] = useState<number>(70000);
-  const [prime, setPrime] = useState<number>(7000);
+  const [brut, setBrut] = useState<number>();
+  const [prime, setPrime] = useState<number>();
   const [edit, setEdit] = useState(false);
 
-  useEffect(() => {
-    onSubmit({ brut, prime });
-  }, []);
-
   const handleSubmit = () => {
-    if (edit) onSubmit({ brut, prime });
+    if (edit && brut && prime) onSubmit({ brut, prime });
     setEdit(!edit);
+  };
+
+  const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleSubmit();
+    }
   };
 
   return (
@@ -54,7 +56,7 @@ export const Header = ({ onSubmit }: IHeaderProps) => {
       </SalaireContainer>
 
       {edit ? (
-        <AmountsContainer>
+        <AmountsContainer onKeyDown={handleKeyPress}>
           <Input label="Salaire brut" defaultValue={brut} onChange={setBrut} />
           <Input
             label="Primes brutes"
@@ -72,9 +74,9 @@ export const Header = ({ onSubmit }: IHeaderProps) => {
         </AmountsContainer>
       ) : (
         <AmountsContainer>
-          <Amount label="Salaire" value={brut + prime} />
-          <Amount label="Salaire de base" value={brut} />
-          <Amount label="Primes" value={prime} />
+          <Amount label="Salaire" value={(brut ?? 0) + (prime ?? 0)} />
+          <Amount label="Salaire de base" value={brut ?? 0} />
+          <Amount label="Primes" value={prime ?? 0} />
         </AmountsContainer>
       )}
     </Container>
