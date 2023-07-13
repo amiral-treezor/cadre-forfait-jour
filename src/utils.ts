@@ -1,5 +1,6 @@
 export const Constants = {
   hoursByMonth: 151.67,
+  // hoursOvertimeByMonth: 10.83 * 1.25,
   hoursOvertimeByMonth: 10.83 * 1.25,
   rateSocialCharges: 0.21166295,
   rateSocialChargesExemption: 0.1101,
