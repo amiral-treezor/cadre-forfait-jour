@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/cadre-forfait-jour/static/css/main.9353adb9.css",
-    "main.js": "/cadre-forfait-jour/static/js/main.4f273cf4.js",
+    "main.js": "/cadre-forfait-jour/static/js/main.338edd54.js",
     "static/js/787.a5c33d5c.chunk.js": "/cadre-forfait-jour/static/js/787.a5c33d5c.chunk.js",
     "static/media/logo-cse.jpg": "/cadre-forfait-jour/static/media/logo-cse.e72ac81ce5fc67a08768.jpg",
     "static/media/Rajdhani-Medium.ttf": "/cadre-forfait-jour/static/media/Rajdhani-Medium.69a9f7bccb45c01931a2.ttf",
     "index.html": "/cadre-forfait-jour/index.html",
     "main.9353adb9.css.map": "/cadre-forfait-jour/static/css/main.9353adb9.css.map",
-    "main.4f273cf4.js.map": "/cadre-forfait-jour/static/js/main.4f273cf4.js.map",
+    "main.338edd54.js.map": "/cadre-forfait-jour/static/js/main.338edd54.js.map",
     "787.a5c33d5c.chunk.js.map": "/cadre-forfait-jour/static/js/787.a5c33d5c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.9353adb9.css",
-    "static/js/main.4f273cf4.js"
+    "static/js/main.338edd54.js"
   ]
 }
