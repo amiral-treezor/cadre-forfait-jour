@@ -35,17 +35,16 @@ export const Repartition = ({ salary, months }: IRepartitionProps) => {
 
   return (
     <Container>
-      <Typography italic size="small">
-        Ces calculs sont des estimations et ne considèrent pas tous les facteurs
-        individuels tels que les avantages en nature (tickets restaurants,
-        mutuelle...) ou les exonérations spécifiques en lien avec ta situation
-        personelle. Consulte le service des ressources humaines pour une
-        évaluation plus précise.
+      <Typography italic size="medium">
+        Ces calculs sont des estimations et ne prennent pas en compte tous les
+        facteurs individuels (avantages en nature, mutuelles, titres
+        restauration, indemnités quelconques), ou les exonération spécifiques à
+        ta situation personnelle. Ce n'est qu'une estimation !
       </Typography>
 
       <ChartsContainer>
-        <PieChart label="Cadre au forfait 39 heures" data={chart.hour} />
-        <PieChart label="Cadre au forfait jour" data={chart.day} />
+        <PieChart label="Cadre 39 heures" data={chart.hour} />
+        <PieChart label="Cadre forfait jour" data={chart.day} />
       </ChartsContainer>
     </Container>
   );

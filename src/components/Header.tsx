@@ -74,8 +74,7 @@ export const Header = ({ onSubmit }: IHeaderProps) => {
         </AmountsContainer>
       ) : (
         <AmountsContainer>
-          <Amount label="Salaire" value={(brut ?? 0) + (prime ?? 0)} />
-          <Amount label="Salaire de base" value={brut ?? 0} />
+          <Amount label="Salaire brut" value={brut ?? 0} />
           <Amount label="Primes" value={prime ?? 0} />
         </AmountsContainer>
       )}

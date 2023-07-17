@@ -25,15 +25,15 @@ export const Impacts = ({ salary }: IImpactsProps) => {
   return (
     <Container>
       <Typography size="medium">
-        Selon nos estimations, ton passage au forfait jour entraînerait une
-        perte nette sur ton pouvoir d'achat de{" "}
+        Selon nos estimations, en gardant ton salaire en passant au forfait jour
+        : tu aurais une une perte sur ton pouvoir d'achat estimée à hauteur de{" "}
         <b>{Formatter.format(salaryLoss)}/an</b> (
         {Formatter.format(salaryLoss / 12)}/mois).
       </Typography>
 
       <Typography size="medium">
-        Cette perte correspond à l'absence d'exonérations liées à tes actuelles
-        heures supplémentaires :
+        Cette perte correspond à l'absence d'exonération liée à tes heures
+        supplémentaires, réparties comme suit :
         <ul>
           <li>
             Exonération des charges sociales{" "}
@@ -49,27 +49,17 @@ export const Impacts = ({ salary }: IImpactsProps) => {
       </Typography>
 
       <Typography size="medium">
-        A titre informatif, pour ne pas être impacté financièrement au passage
-        du forfait jour, il serait nécessaire d'avoir un salaire brut annuel
-        (primes comprises) de <b>{Formatter.format(increaseNecessary)}</b>.
+        Selon notre estimation, il te faudrait demander un salaire brut annuel
+        (primes incluses ) d'environ :{" "}
+        <b>{Formatter.format(increaseNecessary)}</b> si tu souhaites passer au
+        forfait jour.
+        <br />
       </Typography>
 
       <Typography size="medium">
         Il convient de différencier cette augmentation annuelle de celle liée à
         la performance, afin de garantir ton pouvoir d'achat et une performance
         correctement récompensée.
-      </Typography>
-
-      <Typography size="medium">
-        Cependant, il est important de prendre en compte d'autres critères tels
-        que la flexibilité horaire, l'autonomie dans l'organisation du travail,
-        la conciliation entre vie professionnelle et vie personnelle, ainsi que
-        l'adaptation aux pics d'activité.
-      </Typography>
-
-      <Typography size="medium">
-        N'hésite pas à nous contacter si tu as des questions ou besoin de plus
-        d'informations.
       </Typography>
     </Container>
   );

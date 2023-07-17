@@ -92,14 +92,14 @@ const App = () => {
       </TitleContainer>
 
       <Typography size="medium">
-        Cet outil te permettra de découvrir les implications financières d'un
-        passage au forfait jour si tu es actuellement au forfait 39h chez
-        Treezor. <br />
-        Saisis simplement ton salaire actuel et toute prime éventuelle, notre
-        outil te présentera les différences financières à prendre en compte.
-        <br />
-        Sache que notre outil ne stocke aucune donnée et garantit ton anonymat
-        lors de son utilisation.
+        Ton CSE a mis en place cet outil pour te permettre de calculer de
+        manière estimative ton nouveau salaire si tu souhaites passer au forfait
+        jour alors que tu es en contrat heure. <br />
+        ATTENTION : ce ne sont que des calculs sur une base fournie par l'état,
+        le vrai calcul est beaucoup complexe et nous ne sommes pas RH. C'est une
+        valeur approximative !<br />
+        Nous ne stockons aucune informations, aucune données, ce qui qui garanti
+        ton anonymat lors de son utilisation.
       </Typography>
 
       <Header onSubmit={onSalaryChange} />
