@@ -34,7 +34,7 @@ export const Header = ({ onSubmit }: IHeaderProps) => {
   const [edit, setEdit] = useState(false);
 
   const handleSubmit = () => {
-    if (edit && brut && prime) onSubmit({ brut, prime });
+    if (edit && brut) onSubmit({ brut, prime: prime ?? 0 });
     setEdit(!edit);
   };
 
