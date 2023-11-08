@@ -96,10 +96,10 @@ const App = () => {
         manière estimative ton nouveau salaire si tu souhaites passer au forfait
         jour alors que tu es en contrat heure. <br />
         ATTENTION : ce ne sont que des calculs sur une base fournie par l'état,
-        le vrai calcul est beaucoup complexe et nous ne sommes pas RH. C'est une
-        valeur approximative !<br />
-        Nous ne stockons aucune informations, aucune données, ce qui qui garanti
-        ton anonymat lors de son utilisation.
+        le vrai calcul est beaucoup plus complexe et nous ne sommes pas RH.
+        C'est une valeur approximative !<br />
+        Nous ne stockons aucune information, aucune donnée, ce qui garanti ton
+        anonymat lors de son utilisation.
       </Typography>
 
       <Header onSubmit={onSalaryChange} />

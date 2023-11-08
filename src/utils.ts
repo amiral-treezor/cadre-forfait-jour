@@ -27,24 +27,36 @@ export const Tools = {
       salaire > Constants.taxesSteps.step30 &&
       salaire <= Constants.taxesSteps.step41
     ) {
-      return (salaire - Constants.taxesSteps.step30) * 0.3 +
-        (Constants.taxesSteps.step30 - Constants.taxesSteps.step11) * 0.11; // Taux d'imposition de 30%
+      return (
+        (salaire - Constants.taxesSteps.step30) * 0.3 +
+        (Constants.taxesSteps.step30 - Constants.taxesSteps.step11) * 0.11
+      ); // Taux d'imposition de 30%
     } else if (
       salaire > Constants.taxesSteps.step41 &&
       salaire <= Constants.taxesSteps.step45
     ) {
-      return (salaire - Constants.taxesSteps.step41) * 0.41 +
-        (Constants.taxesSteps.step41 - Constants.taxesSteps.step30) * 0.3; // Taux d'imposition de 41%
+      return (
+        (salaire - Constants.taxesSteps.step41) * 0.41 +
+        (Constants.taxesSteps.step41 - Constants.taxesSteps.step30) * 0.3
+      ); // Taux d'imposition de 41%
     } else {
-      return (salaire - Constants.taxesSteps.step45) * 0.45 +
-        (Constants.taxesSteps.step45 - Constants.taxesSteps.step41) * 0.45; // Taux d'imposition de 45%
+      return (
+        (salaire - Constants.taxesSteps.step45) * 0.45 +
+        (Constants.taxesSteps.step45 - Constants.taxesSteps.step41) * 0.45
+      ); // Taux d'imposition de 45%
     }
   },
   calculSalaire: (impot: number) => {
     const impotStep11 = Constants.taxesSteps.step11 * 0;
-    const impotStep30 = impotStep11 + (Constants.taxesSteps.step30 - Constants.taxesSteps.step11) * 0.11;
-    const impotStep41 = impotStep30 + (Constants.taxesSteps.step41 - Constants.taxesSteps.step30) * 0.30;
-    const impotStep45 = impotStep41 + (Constants.taxesSteps.step45 - Constants.taxesSteps.step41) * 0.41;
+    const impotStep30 =
+      impotStep11 +
+      (Constants.taxesSteps.step30 - Constants.taxesSteps.step11) * 0.11;
+    const impotStep41 =
+      impotStep30 +
+      (Constants.taxesSteps.step41 - Constants.taxesSteps.step30) * 0.3;
+    const impotStep45 =
+      impotStep41 +
+      (Constants.taxesSteps.step45 - Constants.taxesSteps.step41) * 0.41;
 
     if (impot <= impotStep11) {
       return 0.0; // Taux d'imposition de 0%
@@ -57,15 +69,15 @@ export const Tools = {
     } else {
       return (Constants.taxesSteps.step45 + (impot - impotStep45) / 0.45) / 0.9; // Taux d'imposition de 45%
     }
-  }
+  },
 };
 
 export const Colors = {
   default: "#000000",
   primary: "#007bff",
   secondary: "#dc3545",
-  success: '#4caf50',
-  error: '#f44336'
+  success: "#4caf50",
+  error: "#f44336",
 } as const;
 
 export type TColor = keyof typeof Colors;

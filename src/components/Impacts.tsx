@@ -25,8 +25,8 @@ export const Impacts = ({ salary }: IImpactsProps) => {
   return (
     <Container>
       <Typography size="medium">
-        Selon nos estimations, en gardant ton salaire en passant au forfait jour
-        : tu aurais une une perte sur ton pouvoir d'achat estimée à hauteur de{" "}
+        Selon nos estimations approximatives, en gardant ton package au passage
+        du forfait jour, tu aurais une perte sur ton pouvoir d'achat estimée de{" "}
         <b>{Formatter.format(salaryLoss)}/an</b> (
         {Formatter.format(salaryLoss / 12)}/mois).
       </Typography>
@@ -49,10 +49,12 @@ export const Impacts = ({ salary }: IImpactsProps) => {
       </Typography>
 
       <Typography size="medium">
-        Selon notre estimation, il te faudrait demander un salaire brut annuel
-        (primes incluses ) d'environ :{" "}
-        <b>{Formatter.format(increaseNecessary)}</b> si tu souhaites passer au
-        forfait jour.
+        Voici une estimation approximative de votre package pour garder son
+        pouvoir d'achat au passage du forfait jour :
+        <br />
+        <b>{Formatter.format(increaseNecessary)}</b> (
+        {Formatter.format(increaseNecessary / 1.1)} de fixe et{" "}
+        {Formatter.format((increaseNecessary / 1.1) * 0.1)} de prime)
         <br />
       </Typography>
 
