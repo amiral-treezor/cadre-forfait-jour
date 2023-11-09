@@ -75,7 +75,12 @@ export const Header = ({ onSubmit }: IHeaderProps) => {
       ) : (
         <AmountsContainer>
           <Amount label="Salaire brut" value={brut ?? 0} />
-          <Amount label="Primes" value={prime ?? 0} />
+          <Amount
+            label={`Primes${
+              brut && brut > 0 ? ` (${(((prime ?? 0) * 100) / brut) | 0}%)` : ""
+            }`}
+            value={prime ?? 0}
+          />
         </AmountsContainer>
       )}
     </Container>

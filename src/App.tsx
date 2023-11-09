@@ -67,6 +67,10 @@ const App = () => {
     const dayTaxes = Tools.calculImpots(dayNetSalary);
 
     setSalary({
+      total: {
+        brut,
+        prime,
+      },
       hour: {
         netSalaryAfterTax: hourNetSalary - hourTaxes,
         socialCharges: hourSocialCharges,

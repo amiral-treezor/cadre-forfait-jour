@@ -22,6 +22,8 @@ export const Impacts = ({ salary }: IImpactsProps) => {
       salary.hour.netSalaryAfterTax) /
     (1 - Constants.rateSocialCharges);
 
+  const primeRate = salary.total.prime / salary.total.brut;
+
   return (
     <Container>
       <Typography size="medium">
@@ -50,12 +52,25 @@ export const Impacts = ({ salary }: IImpactsProps) => {
 
       <Typography size="medium">
         Voici une estimation approximative de votre package pour garder son
-        pouvoir d'achat au passage du forfait jour :
+        pouvoir d'achat au passage du forfait jour{" "}
+        <b>{Formatter.format(increaseNecessary)}</b>.
         <br />
-        <b>{Formatter.format(increaseNecessary)}</b> (
-        {Formatter.format(increaseNecessary / 1.1)} de fixe et{" "}
-        {Formatter.format((increaseNecessary / 1.1) * 0.1)} de prime)
-        <br />
+        En se basant sur une prime de {(primeRate * 100) | 0}%, voici un exemple
+        de répartion de votre package
+        <ul>
+          <li>
+            <b>{Formatter.format(increaseNecessary / (1 + primeRate))}</b> de
+            fixe
+          </li>
+          <li>
+            <b>
+              {Formatter.format(
+                (increaseNecessary / (1 + primeRate)) * primeRate
+              )}
+            </b>{" "}
+            de prime
+          </li>
+        </ul>
       </Typography>
 
       <Typography size="medium">
